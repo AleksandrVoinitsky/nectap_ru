@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nectap — Автоматизация бизнеса с помощью ИИ</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Подключение Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .bg-gray {
+      background-color: #f8f9fa;
+    }
+    .text-gray {
+      color: #6c757d;
+    }
+    .bg-dark-gray {
+      background-color: #343a40;
+    }
+    .section-min-height {
+      min-height: 100vh;
+    }
+    .hero-pattern {
+      background: linear-gradient(135deg, rgba(25, 118, 210, 0.1) 0%, rgba(25, 118, 210, 0.05) 100%);
+    }
+
+
+/* Стили для интерактивной демонстрации */
+#interactiveDemoBlock .chat-bubble {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+#interactiveDemoBlock .chat-bubble.bot {
+  align-self: flex-start;
+  background-color: #f1f3f5; /* Более светлый фон для сообщений бота */
+  color: #212529;
+  border-bottom-left-radius: 5px;
+}
+
+#interactiveDemoBlock .chat-bubble.user {
+  align-self: flex-end;
+  background-color: #0d6efd; /* Основной синий цвет для сообщений пользователя */
+  color: white;
+  border-bottom-right-radius: 5px;
+}
+
+/* Стили для контейнера сообщений */
+#chatMessages {
+  display: flex !important;
+  flex-direction: column !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: #adb5bd transparent;
+}
+#chatMessages::-webkit-scrollbar {
+  width: 6px;
+}
+#chatMessages::-webkit-scrollbar-track {
+  background: transparent;
+}
+#chatMessages::-webkit-scrollbar-thumb {
+  background-color: #adb5bd;
+  border-radius: 3px;
+}
+#chatMessages {
+  -ms-overflow-style: none;
+}
+
+
+/* Анимация пульсации для ядра ИИ */
+@keyframes pulse-animation {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(5);
+    opacity: 0;
+  }
+}
+
+/* Комбинированная анимация для нейронов */
+.neuron {
+  animation: neuron-float 15s ease-in-out infinite;
+}
+
+.neuron:nth-child(2) { animation-delay: 0.5s; }
+.neuron:nth-child(3) { animation-delay: 1s; }
+.neuron:nth-child(4) { animation-delay: 1.5s; }
+
+@keyframes neuron-float {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  25% {
+    transform: scale(1.1) translateY(-5px);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(0.9) translateY(0);
+    opacity: 0.6;
+  }
+  75% {
+    transform: scale(1.05) translateY(3px);
+    opacity: 0.9;
+  }
+}
+
+
+  </style>
+</head>
+<body class="bg-white">
+
+  <!-- Навигация -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-4 text-primary" href="#">Nectap</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="#about">О нас</a></li>
+          <li class="nav-item"><a class="nav-link" href="#services">Услуги</a></li>
+          <li class="nav-item"><a class="nav-link" href="#pricing">Тарифы</a></li>
+          <li class="nav-item"><a class="nav-link" href="#demo">Демо</a></li>
+          <li class="nav-item"><a class="nav-link" href="#advantages">Преимущества</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contacts">Контакты</a></li>
+          <li class="nav-item ms-2">
+            <a class="btn btn-primary btn-sm" href="https://t.me/nectap_bot" target="_blank">
+              <i class="bi bi-telegram me-1"></i> Telegram-бот
+            </a>
+          </li>
+          <li class="nav-item ms-2">
+            <a class="btn btn-outline-primary btn-sm" href="tools.html">Продукты</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+    <!-- Герой-секция -->
+  <header class="py-5 section-min-height d-flex align-items-center hero-pattern">
+    <div class="container py-5">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <div class="mb-4">
+            <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2">Искусственный интеллект</span>
+          </div>
+          <h1 class="display-3 fw-bold mb-4">Искусственный интеллект для вашего бизнеса</h1>
+          <p class="lead fs-4 mb-4 text-gray">Автоматизируем процессы, повышаем эффективность и снижаем издержки с помощью собственных решений</p>
+          <div class="d-flex flex-wrap gap-3 mb-5">
+            <a href="https://t.me/nectap_bot" target="_blank" class="btn btn-primary btn-lg">
+              <i class="bi bi-telegram me-2"></i>Попробовать в Telegram
+            </a>
+            <a href="#pricing" class="btn btn-outline-primary btn-lg">Выбрать тариф</a>
+          </div>
+          
+          
+        </div>
+<div class="col-lg-6 mt-5 mt-lg-0 d-lg-block">
+  <div class="position-relative h-100">
+    <!-- Абстрактное визуальное представление нейросети -->
+    <div class="ai-visualization-wrapper d-flex justify-content-center align-items-center" style="min-height: 400px;">
+      <div class="ai-core" style="width: 180px; height: 180px; border-radius: 50%; background: linear-gradient(135deg, #0d6efd, #6610f2); position: relative; box-shadow: 0 0 40px rgba(13, 110, 253, 0.4); display: flex; justify-content: center; align-items: center;">
+        <div class="ai-core-inner" style="width: 120px; height: 120px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2);"></div>
+        
+        <!-- Связи/Нейроны -->
+        <div class="neuron" style="position: absolute; width: 20px; height: 20px; border-radius: 50%; background: #fff; top: 20px; left: 50px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);"></div>
+        <div class="neuron" style="position: absolute; width: 15px; height: 15px; border-radius: 50%; background: #fff; bottom: 30px; right: 40px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);"></div>
+        <div class="neuron" style="position: absolute; width: 12px; height: 12px; border-radius: 50%; background: #fff; top: 50%; right: 20px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);"></div>
+        <div class="neuron" style="position: absolute; width: 18px; height: 18px; border-radius: 50%; background: #fff; bottom: 20px; left: 60px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);"></div>
+        
+        <!-- Анимация пульсации -->
+        <div class="pulse" style="position: absolute; width: 100%; height: 100%; border-radius: 50%; background: inherit; opacity: 0; animation: pulse-animation 2.4s infinite;"></div>
+      </div>
+      
+      <!-- Надпись Nectap - легко позиционировать -->
+      <div id="nectap-label" style="position: absolute; top: 50%; left: calc(50% + px); transform: translateY(-50%); color: #f0f6fc; font-weight: bold; font-size: 1.5rem; white-space: nowrap;">
+        Nectap
+      </div>
+      <!-- Надпись Nectap - легко позиционировать -->
+      <div id="nectap-label" style="position: absolute; top: 15%; left: calc(40% + 120px); transform: translateY(-50%); color: #f0f6fc; font-weight: bold; font-size: 1.5rem; white-space: nowrap;">
+        +30% к прибыли
+      </div>
+
+            <!-- Надпись Nectap - легко позиционировать -->
+      <div id="nectap-label" style="position: absolute; top: 110%; left: calc(30% + 120px); transform: translateY(-50%); color: #f0f6fc; font-weight: bold; font-size: 1.5rem; white-space: nowrap;">
+        Автоматизация процессов
+      </div>
+
+           <!-- Надпись Nectap - легко позиционировать -->
+      <div id="nectap-label" style="position: absolute; top: 20%; left: calc(30% - 90px); transform: translateY(-50%); color: #f0f6fc; font-weight: bold; font-size: 1.5rem; white-space: nowrap;">
+        Меньше ошибок
+      </div>
+
+                 <!-- Надпись Nectap - легко позиционировать -->
+      <div id="nectap-label" style="position: absolute; top: 90%; left: calc(30% - 120px); transform: translateY(-50%); color: #f0f6fc; font-weight: bold; font-size: 1.5rem; white-space: nowrap;">
+        Круглосуточная работа
+      </div>
+
+                       <!-- Надпись Nectap - легко позиционировать -->
+      <div id="nectap-label" style="position: absolute; top: 50%; left: calc(30% - 250px); transform: translateY(-50%); color: #f0f6fc; font-weight: bold; font-size: 1.5rem; white-space: nowrap;">
+        Новые возможности
+      </div>
+
+       <!-- Надпись Nectap - легко позиционировать -->
+      <div id="nectap-label" style="position: absolute; top: 60%; left: calc(40% + 180px); transform: translateY(-50%); color: #f0f6fc; font-weight: bold; font-size: 1.5rem; white-space: nowrap;">
+        Снижение затрат
+      </div>
+
+            <!-- Надпись Nectap - легко позиционировать -->
+      <div id="nectap-label" style="position: absolute; top: 0%; left: calc(50% - 50px); transform: translateY(-50%); color: #f0f6fc; font-weight: bold; font-size: 1.5rem; white-space: nowrap;">
+        +80% к скорости
+      </div>
+      
+      <!-- Абстрактные линии связи -->
+      <div class="connection-lines" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden;">
+        <svg width="100%" height="100%" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet">
+          <line x1="90" y1="80" x2="310" y2="120" stroke="rgba(13, 110, 253, 0.3)" stroke-width="1" stroke-dasharray="5,5">
+            <animate attributeName="stroke-dashoffset" values="0;10" dur="4s" repeatCount="indefinite" />
+          </line>
+          <line x1="120" y1="320" x2="280" y2="80" stroke="rgba(102, 16, 242, 0.3)" stroke-width="1" stroke-dasharray="5,5">
+            <animate attributeName="stroke-dashoffset" values="0;10" dur="5s" repeatCount="indefinite" />
+          </line>
+          <line x1="300" y1="300" x2="100" y2="100" stroke="rgba(13, 110, 253, 0.3)" stroke-width="1" stroke-dasharray="5,5">
+            <animate attributeName="stroke-dashoffset" values="0;10" dur="6s" repeatCount="indefinite" />
+          </line>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+  </header>
+
+  <!-- О нас -->
+  <section id="about" class="py-5 bg-gray">
+    <div class="container py-5">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <h2 class="display-5 fw-bold mb-4">О компании Nectap</h2>
+          <p class="lead mb-4">Мы — российская IT-компания, специализирующаяся на создании решений с искусственным интеллектом для автоматизации бизнес-процессов.</p>
+          <p class="mb-4">Наши разработки помогают компаниям оптимизировать рутинные задачи, повышать производительность и фокусироваться на стратегическом развитии.</p>
+          
+          <div class="row mt-4">
+            <div class="col-md-4 col-6 mb-4">
+              <h3 class="text-primary fw-bold display-6">50+</h3>
+              <p class="text-muted">Реализованных проектов</p>
+            </div>
+            <div class="col-md-4 col-6 mb-4">
+              <h3 class="text-primary fw-bold display-6">30+</h3>
+              <p class="text-muted">Запусков сервисов</p>
+            </div>
+            <div class="col-md-4 col-6 mb-4">
+              <h3 class="text-primary fw-bold display-6">3</h3>
+              <p class="text-muted">Года на рынке</p>
+            </div> 
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="bg-white rounded p-4 shadow-sm">
+            <h4 class="fw-bold mb-3">Наш подход</h4>
+            <ul class="list-unstyled">
+              <li class="mb-3">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                <strong>Анализ бизнес-процессов</strong>
+                <p class="text-muted small mb-0">Изучаем текущие процессы и выявляем точки автоматизации</p>
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                <strong>Разработка решений на базе собственной платформы</strong>
+                <p class="text-muted small mb-0">Создаем индивидуальные ИИ-решения под ваши задачи</p>
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                <strong>Внедрение и поддержка</strong>
+                <p class="text-muted small mb-0">Обеспечиваем бесперебойную работу и техническую поддержку</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Услуги -->
+  <section id="services" class="py-5 bg-white">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold">Наши решения</h2>
+        <p class="lead text-gray">Комплексные ИИ-решения для вашего бизнеса</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+              <div class="text-primary mb-3">
+                <i class="bi bi-chat-dots fs-1"></i>
+              </div>
+              <h5 class="card-title fw-bold">Чат-боты</h5>
+              <p class="card-text">Интеллектуальные боты для автоматизации общения с клиентами во всех популярных мессенджерах.</p>
+              <ul class="list-unstyled small text-muted mt-3">
+                <li><i class="bi bi-check-circle-fill me-2"></i>Telegram, VK, MAX</li>
+                <li><i class="bi bi-check-circle-fill me-2"></i>Интеграция с CRM</li>
+                <li><i class="bi bi-check-circle-fill me-2"></i>Аналитика диалогов</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+              <div class="text-primary mb-3">
+                <i class="bi bi-graph-up fs-1"></i>
+              </div>
+              <h5 class="card-title fw-bold">Аналитика данных</h5>
+              <p class="card-text">Прогнозирование, аналитика и визуализация данных для принятия обоснованных бизнес-решений.</p>
+              <ul class="list-unstyled small text-muted mt-3">
+                <li><i class="bi bi-check-circle-fill me-2"></i>Прогнозирование продаж</li>
+                <li><i class="bi bi-check-circle-fill me-2"></i>Анализ поведения клиентов</li>
+                <li><i class="bi bi-check-circle-fill me-2"></i>Отчеты в реальном времени</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+              <div class="text-primary mb-3">
+                <i class="bi bi-gear fs-1"></i>
+              </div>
+              <h5 class="card-title fw-bold">Автоматизация процессов</h5>
+              <p class="card-text">Интеграция ИИ в бизнес-процессы для полной автоматизации рутинных операций.</p>
+              <ul class="list-unstyled small text-muted mt-3">
+                <li><i class="bi bi-check-circle-fill me-2"></i>Обработка документов</li>
+                <li><i class="bi bi-check-circle-fill me-2"></i>Управление задачами</li>
+                <li><i class="bi bi-check-circle-fill me-2"></i>Интеграция с 1С</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Тарифы -->
+  <section id="pricing" class="py-5 bg-gray">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold">Тарифные планы сопровождения</h2>
+        <p class="lead text-gray">Выберите оптимальное решение для вашего бизнеса</p>
+      </div>
+      <div class="row g-4">
+        <!-- Старт -->
+        <div class="col-lg-4 col-md-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+              <div class="text-center mb-4">
+                <h5 class="card-title fw-bold">Старт</h5>
+                <div class="display-4 fw-bold text-primary">1850 ₽</div>
+                <p class="text-muted">в год</p>
+              </div>
+              <ul class="list-unstyled">
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Базовый чат-бот</li>
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Неограниченное количество сообщений</li>
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Платформа автоматизации</li>
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Чат поддержка</li>
+                <li class="mb-3 text-muted"><i class="bi bi-x-circle me-2"></i>Интеграция с CRM</li>
+                <li class="mb-3 text-muted"><i class="bi bi-x-circle me-2"></i>Персональный менеджер</li>
+              </ul>
+              <a href="#" class="btn btn-outline-primary w-100">Выбрать тариф</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Про -->
+        <div class="col-lg-4 col-md-6">
+          <div class="card h-100 border-0 shadow-sm border border-primary">
+            <div class="card-body p-4">
+              <div class="text-center mb-4">
+                <span class="badge bg-primary mb-2">Популярный</span>
+                <h5 class="card-title fw-bold">Про</h5>
+                <div class="display-4 fw-bold text-primary">9880 ₽</div>
+                <p class="text-muted">в год</p>
+              </div>
+              <ul class="list-unstyled">
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Расширенный чат-бот</li>
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Неограниченное количество сообщений</li>
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Надежный хостинг</li>
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Интеграция с CRM</li>
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Чат поддержка</li>
+                <li class="mb-3 text-muted"><i class="bi bi-x-circle me-2"></i>Персональный менеджер</li>
+              </ul>
+              <a href="#" class="btn btn-primary w-100">Выбрать тариф</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Энтерпрайз -->
+        <div class="col-lg-4 col-md-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+              <div class="text-center mb-4">
+                <h5 class="card-title fw-bold">Энтерпрайз</h5>
+                <div class="display-6 fw-bold text-primary">Договорная</div>
+                <p class="text-muted">цена</p>
+              </div>
+              <ul class="list-unstyled">
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Индивидуальные решения</li>
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Неограниченное количество сообщений</li>
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Полная аналитика</li>
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Интеграция со всеми системами</li>
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>Персональный менеджер</li>
+                <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i>24/7 поддержка</li>
+              </ul>
+              <a href="#contacts" class="btn btn-outline-primary w-100">Связаться с нами</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Блок демонстрации -->
+<div id="demo" class="demo-section-wrapper py-5">
+  <div class="row align-items-center g-4 mx-0">
+    <!-- Смартфон с чатом -->
+    <div class="col-md-6 d-flex justify-content-end justify-content-md-end"> <!-- Центрируем на мобильных, выравниваем справа на больших экранах -->
+      <div id="interactiveDemoBlock" class="mx-auto mx-md-0" style="width: 280px; height: 560px; background-color: #ffffff; border-radius: 36px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.15); overflow: hidden; display: flex; flex-direction: column;"> <!-- Центрируем на мобильных, убираем отступ на больших -->
+        <!-- Челка (Notch) -->
+        <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 40%; height: 24px; background-color: #4e4e4e; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; z-index: 10;"></div>
+        
+        <!-- Экран чата -->
+        <div id="chatScreen" class="p-3 flex-grow-1 d-flex flex-column mt-4" style="background-color: #ffffff; overflow: hidden;">
+          <!-- Область сообщений -->
+          <div id="chatMessages" class="flex-grow-1 overflow-hidden d-flex flex-column" style="gap: 15px;">
+            <!-- Сообщения будут добавляться сюда -->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Описание -->
+    <div class="col-md-6">
+      <div class="pe-0 pe-md-5"> <!-- Добавляем отступ справа на больших экранах -->
+        <h3 class="fw-bold mb-3">ИИ-бот в действии</h3>
+        <p class="text-gray mb-2"><i class="bi bi-lightning-charge-fill text-primary me-2"></i>Автоматизируйте общение с клиентами</p>
+        <p class="text-gray mb-2"><i class="bi bi-graph-up text-primary me-2"></i>Получайте аналитику диалогов</p>
+        <p class="text-gray mb-2"><i class="bi bi-arrow-repeat text-primary me-2"></i>Работайте круглосуточно без перерывов</p>
+        <p class="text-gray mb-3"><i class="bi bi-telegram text-primary me-2"></i>Интеграция с Telegram, WhatsApp, VK</p>
+        <a href="https://t.me/nectap_bot" target="_blank" class="btn btn-primary">
+          <i class="bi bi-telegram me-2"></i>Попробовать демо в Telegram
+        </a>
+        <p class="text-muted small mt-3">Или просто напишите нам в Telegram: <a href="https://t.me/nectap_bot" target="_blank">@nectap_bot</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Преимущества -->
+  <section id="advantages" class="py-5 bg-gray">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold">Почему выбирают нас</h2>
+        <p class="lead text-gray">Наши ключевые преимущества</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+          <div class="text-center p-3">
+            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+              <i class="bi bi-lightning-charge text-primary fs-3"></i>
+            </div>
+            <h5 class="fw-bold">Скорость</h5>
+            <p class="text-muted small">Быстрая реализация проектов без потери качества</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="text-center p-3">
+            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+              <i class="bi bi-shield-check text-primary fs-3"></i>
+            </div>
+            <h5 class="fw-bold">Безопасность</h5>
+            <p class="text-muted small">Гарантируем конфиденциальность и защиту данных</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="text-center p-3">
+            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+              <i class="bi bi-phone text-primary fs-3"></i>
+            </div>
+            <h5 class="fw-bold">Кроссплатформенность</h5>
+            <p class="text-muted small">Работаем на всех устройствах и платформах</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="text-center p-3">
+            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+              <i class="bi bi-award text-primary fs-3"></i>
+            </div>
+            <h5 class="fw-bold">Качество</h5>
+            <p class="text-muted small">Собственные разработки и современные технологии</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row mt-5 g-4">
+        <div class="col-lg-6">
+          <div class="bg-white rounded p-4 shadow-sm h-100">
+            <h5 class="fw-bold mb-3">Для физических лиц</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Персональные решения</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Простая настройка</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Поддержка 24/7</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Гибкие тарифы</li>
+            </ul>
+            <a href="#" class="btn btn-outline-primary btn-sm mt-3">Подробнее</a>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="bg-white rounded p-4 shadow-sm h-100">
+            <h5 class="fw-bold mb-3">Для юридических лиц</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Корпоративные решения</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Интеграция с ERP</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>SLA гарантии</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Персональный менеджер</li>
+            </ul>
+            <a href="#" class="btn btn-primary btn-sm mt-3">Подробнее</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Контакты -->
+  <section id="contacts" class="py-5 bg-white">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold">Свяжитесь с нами</h2>
+        <p class="lead text-gray">Готовы обсудить ваш проект?</p>
+      </div>
+      <div class="row g-5">
+        <div class="col-lg-6">
+          <div class="bg-gray rounded p-4 h-100">
+            <h5 class="fw-bold mb-4">Контактная информация</h5>
+            <ul class="list-unstyled">
+              <li class="mb-3">
+                <i class="bi bi-envelope me-2 text-primary"></i>
+                <strong>Email:</strong> info@nectap.ru
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-telephone me-2 text-primary"></i>
+                <strong>Телефон:</strong> +7 (914) 904-94-92
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-geo-alt me-2 text-primary"></i>
+                <strong>Адрес:</strong> Иркутск, ул. Трактовая, 14
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-telegram me-2 text-primary"></i>
+                <strong>Telegram-бот:</strong> 
+                <a href="https://t.me/nectap_bot" target="_blank">@nectap_bot</a>
+              </li>
+            </ul>
+            
+            <div class="mt-4">
+  <h6 class="fw-bold">Мы в социальных сетях:</h6>
+  <div class="d-flex gap-3 mt-2">
+    <!-- Используем иконку Telegram из Font Awesome -->
+    <a href="https://t.me/nectap_bot" target="_blank" class="btn btn-outline-primary btn-sm" title="Telegram">
+      <i class="fab fa-telegram-plane"></i> <!-- Или просто fa-brands fa-telegram -->
+    </a>
+    <!-- Используем иконку VK из Font Awesome -->
+    <a href="#" target="_blank" class="btn btn-outline-primary btn-sm" title="ВКонтакте"> <!-- Замените # на реальную ссылку -->
+      <i class="fab fa-vk"></i>
+    </a>
+  </div>
+</div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="bg-gray rounded p-4 h-100">
+            <h5 class="fw-bold mb-4">Напишите нам</h5>
+            <form>
+              <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Ваше имя" required>
+              </div>
+              <div class="mb-3">
+                <input type="email" class="form-control" placeholder="Email" required>
+              </div>
+              <div class="mb-3">
+                <select class="form-select">
+                  <option selected>Тип клиента</option>
+                  <option>Физическое лицо</option>
+                  <option>Юридическое лицо</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <textarea class="form-control" rows="4" placeholder="Сообщение" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Отправить сообщение</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Подвал -->
+  <footer class="bg-dark-gray text-white py-5">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+          <h5 class="fw-bold mb-3 text-white">Nectap</h5>
+          <p class="text-white-50 small">Автоматизация бизнеса с помощью искусственного интеллекта и собственных разработок.</p>
+          <div class="d-flex gap-2 mt-3">
+          
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <h5 class="fw-bold mb-3 text-white">Решения</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Чат-боты</a></li>
+            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Аналитика данных</a></li>
+            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Автоматизация</a></li>
+            <li class="mb-2"><a href="tools.html" class="text-white-50 text-decoration-none">Инструменты</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <h5 class="fw-bold mb-3 text-white">Для клиентов</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Физическим лицам</a></li>
+            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Юридическим лицам</a></li>
+            <li class="mb-2"><a href="#pricing" class="text-white-50 text-decoration-none">Вакансии</a></li>
+            <li class="mb-2"><a href="documentation.html" class="text-white-50 text-decoration-none">Документация</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <h5 class="fw-bold mb-3 text-white">Контакты</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2 text-white-50"><i class="bi bi-envelope me-2"></i> info@nectap.ru</li>
+            <li class="mb-2 text-white-50"><i class="bi bi-telephone me-2"></i> +7 (495) 123-45-67</li>
+            <li class="mb-2 text-white-50"><i class="bi bi-geo-alt me-2"></i> Иркутск, ул. Трактовая, 14</li>
+            <li class="mb-2">
+              <a href="https://t.me/nectap_bot" target="_blank" class="text-white-50 text-decoration-none">
+                <i class="bi bi-telegram me-2"></i>Telegram-бот
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <hr class="my-4 bg-secondary">
+      <div class="row">
+        <div class="col-md-6">
+          <p class="text-white-50 small mb-0">© 2025 Nectap. Все права защищены.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <a href="privacypolicy.html" class="text-white-50 text-decoration-none small me-3">Политика конфиденциальности</a>
+          <a href="offer-agreement.html" class="text-white-50 text-decoration-none small">Пользовательское соглашение</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const chatMessages = document.getElementById('chatMessages');
+  const demoSection = document.getElementById('interactiveDemoBlock');
+  
+  if (!chatMessages || !demoSection) return;
+
+  const demoMessages = [
+    { sender: 'bot', text: '👋 Добро пожаловать в Nectap AI Solutions! Я ваш цифровой помощник. Расскажу о наших возможностях и помогу подобрать идеальное решение для вашего бизнеса.' },
+    { sender: 'user', text: 'Привет! Расскажите, чем вы занимаетесь?' },
+    { sender: 'bot', text: 'Мы создаем интеллектуальные системы для автоматизации бизнеса. Основные направления:\n\n• 🤖 Умные чат-боты с NLP\n• 📊 Predictive Analytics\n• ⚡ RPA - роботизация процессов\n• 🎯 Персонализированный маркетинг\n• 📈 AI-аналитика в реальном времени' },
+    { sender: 'user', text: 'Интересно! А какие именно задачи решают ваши боты?' },
+    { sender: 'bot', text: 'Наши ИИ-боты могут:\n\n✅ Обрабатывать до 95% входящих запросов\n✅ Конвертировать лиды в продажи 24/7\n✅ Интегрироваться с CRM (Bitrix24, AmoCRM)\n✅ Анализировать sentiment клиентов\n✅ Предлагать персонализированные рекомендации\n✅ Работать в Telegram, WhatsApp, сайтах' },
+    { sender: 'user', text: 'А как насчет аналитики? Что вы можете предложить?' },
+    { sender: 'bot', text: 'Наша система аналитики включает:\n\n📅 Прогнозирование спроса на основе исторических данных\n🎯 Выявление скрытых паттернов поведения клиентов\n⚡ Real-time дашборды с ключевыми метриками\n🔍 AI-детекция аномалий в продажах\n📊 Автоматические отчеты и инсайты' },
+    { sender: 'user', text: 'У нас интернет-магазин электроники. Что вы посоветуете?' },
+    { sender: 'bot', text: 'Отлично! Для e-commerce у нас есть специальное решение "Nectap e-Commerce Pro". Оно включает:\n\n• 🤖 Бота-консультанта по товарам\n• 🎯 Систему рекомендаций на основе ML\n• 📊 Аналитику abandoned carts\n• ⚡ Интеграцию с 1С и вашей CRM\n• 💰 Автоматические акции и промокоды' },
+    { sender: 'user', text: 'Сколько времени занимает внедрение?' },
+    { sender: 'bot', text: 'Для стандартного проекта:\n\n🚀 Базовый бот - 2 недели\n📦 e-Commerce Pro - 4-6 недель\n🎯 Полный пакет с аналитикой - 8 недель\n\nМы берем на себя все: настройку, обучение модели, интеграцию' },
+    { sender: 'user', text: 'А стоимость?' },
+    { sender: 'bot', text: 'Предлагаю три пакета:\n\n💡 Старт: 49 900₽/мес - базовый бот + аналитика\n🚀 Бизнес: 89 900₽/мес - полная автоматизация\n🏆 Enterprise: от 149 900₽/мес - кастомное решение\n\nДля e-commerce рекомендую Бизнес-пакет - окупаемость 2-3 месяца!' },
+    { sender: 'user', text: 'Есть ли успешные кейсы в нашей нише?' },
+    { sender: 'bot', text: 'Да! Например:\n\n🔹 "TechStore24" - +37% к конверсии за 3 месяца\n🔹 "GadgetWorld" - снижение нагрузки на поддержку на 65%\n🔹 "ElectroPlus" - +28 млн₽ дополнительных продаж за год\n\nПришлю подробные кейсы по вашему запросу!' },
+    { sender: 'user', text: 'Как начать работать?' },
+    { sender: 'bot', text: 'Предлагаю следующий путь:\n\n1. 📅 Бесплатная консультация с нашим экспертом\n2. 🎯 Demo-версия под ваш бизнес (2-3 дня)\n3. ✍️ Подбор индивидуального решения\n4. 🚀 Внедрение и запуск\n\nЗапишу вас на консультацию? Или сразу demo?' },
+    { sender: 'user', text: 'Давайте начнем с demo!' },
+    { sender: 'bot', text: 'Отличный выбор! 🎉\n\nПодготовим для вас персональную demo-версию в течение 24 часов. Для этого нужен доступ к вашему сайту и CRM (только для чтения).\n\nА пока можете попробовать наш живой demo-бот в Telegram: 👇' },
+    { sender: 'bot', text: '<a href="https://t.me/nectap_bot" target="_blank" style="color: #4F46E5; text-decoration: underline; font-weight: 500;">🚀 Попробовать Nectap Bot прямо сейчас</a>\n\nТакже оставлю контакты нашего менеджера для быстрой связи!' },
+    { sender: 'bot', text: '📞 Иван (Head of Sales): +7 (999) 123-45-67\n✉️ sales@nectap.ru\n\nБудем рады помочь вашему бизнесу расти! 💪' },
+    { sender: 'user', text: 'Спасибо! Очень подробно и интересно. Жду demo!' },
+    { sender: 'bot', text: 'Прекрасно! Demo уже готовится 🚀\n\nНаш специалист свяжется с вами в течение часа для уточнения деталей. Хорошего дня! ✨' }
+  ];
+
+  let currentMessageIndex = 0;
+  let isAutoScrolling = true;
+  let isVisible = false;
+  let isStarted = false;
+
+  // Проверка, находится ли элемент в области видимости
+  function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  }
+
+  // Проверка, находится ли скролл внизу
+  function isScrolledToBottom() {
+    const scrollTop = chatMessages.scrollTop;
+    const scrollHeight = chatMessages.scrollHeight;
+    const clientHeight = chatMessages.clientHeight;
+    return scrollTop + clientHeight >= scrollHeight - 5; // небольшая погрешность
+  }
+
+  // Обработчик скролла
+  chatMessages.addEventListener('scroll', function() {
+    isAutoScrolling = isScrolledToBottom();
+  });
+
+  // Функция для добавления одного сообщения
+  function addNextMessage() {
+    if (currentMessageIndex < demoMessages.length && isVisible && isAutoScrolling) {
+      const msg = demoMessages[currentMessageIndex];
+      const messageElement = document.createElement('div');
+      messageElement.classList.add('chat-bubble');
+      messageElement.classList.add(msg.sender);
+      
+      // Заменяем \n на <br> для правильного отображения перевода строк
+      messageElement.innerHTML = msg.text.replace(/\n/g, '<br>');
+
+      chatMessages.appendChild(messageElement);
+      
+      // Прокручиваем вниз, если нужно
+      if (isAutoScrolling) {
+        requestAnimationFrame(() => {
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+      }
+
+      currentMessageIndex++;
+      
+      // Устанавливаем таймер для следующего сообщения
+      const delay = msg.sender === 'bot' ? 1500 : 3000;
+      setTimeout(addNextMessage, delay);
+    } else if (isVisible && currentMessageIndex < demoMessages.length) {
+      // Если не внизу, но блок виден, продолжаем проверку
+      setTimeout(addNextMessage, 1000);
+    }
+  }
+
+  // Функция для запуска демонстрации
+  function startDemo() {
+    if (!isStarted) {
+      isStarted = true;
+      setTimeout(addNextMessage, 1000);
+    }
+  }
+
+  // Проверка видимости при загрузке и при скролле/ресайзе
+  function checkVisibility() {
+    if (isElementInViewport(demoSection) && !isVisible) {
+      isVisible = true;
+      startDemo();
+    }
+  }
+
+  // Начальная проверка
+  checkVisibility();
+
+  // Добавляем обработчики событий
+  window.addEventListener('scroll', checkVisibility);
+  window.addEventListener('resize', checkVisibility);
+});
+</script>
+</body>
+</html>
